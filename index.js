@@ -35,6 +35,9 @@ FileWatcher.prototype.add = function(file) {
   if (this.watchers[file]) return
   fs.stat(file, function (e, stat) {
     if (e) return
+    // Since it's possible for multiple watchers for a file to be queued before
+    // any are created, check that we still don't have an existing watcher.
+    if (self.watchers[file]) return
 
     // remember the current mtime
     var mtime = stat.mtime
