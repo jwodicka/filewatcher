@@ -2,6 +2,7 @@ var fs = require('fs')
 var util = require('util')
 var debounce = require('debounce')
 var events = require('events')
+var path = require('path')
 var EventEmitter = events.EventEmitter
 
 var outOfFileHandles = false
@@ -38,6 +39,8 @@ FileWatcher.prototype.add = function(file) {
     // Since it's possible for multiple watchers for a file to be queued before
     // any are created, check that we still don't have an existing watcher.
     if (self.watchers[file]) return
+
+    console.log('watching:', path.relative('', file))
 
     // remember the current mtime
     var mtime = stat.mtime
